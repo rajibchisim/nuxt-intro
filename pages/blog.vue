@@ -8,7 +8,7 @@
 <script>
 export default {
   async asyncData ({ $content }) {
-    const page = await $content('hello').fetch()
+    const page = await $content('posts/new-post').fetch()
 
     return {
       page
