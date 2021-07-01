@@ -24,12 +24,10 @@
           </div>
           <div :class="open ? 'block': 'hidden'" class="w-full flex-grow sm:flex sm:items-center sm:w-auto">
               <div class="w-full container mx-auto flex flex-col sm:flex-row items-center justify-center text-sm font-bold uppercase mt-0 px-6 py-2">
-                  <a href="#" class="hover:bg-gray-400 rounded py-2 px-4 mx-2">Technology</a>
-                  <a href="#" class="hover:bg-gray-400 rounded py-2 px-4 mx-2">Automotive</a>
-                  <a href="#" class="hover:bg-gray-400 rounded py-2 px-4 mx-2">Finance</a>
-                  <a href="#" class="hover:bg-gray-400 rounded py-2 px-4 mx-2">Politics</a>
-                  <a href="#" class="hover:bg-gray-400 rounded py-2 px-4 mx-2">Culture</a>
-                  <a href="#" class="hover:bg-gray-400 rounded py-2 px-4 mx-2">Sports</a>
+                  <a href="#"
+                      class="hover:bg-gray-400 rounded py-2 px-4 mx-2"
+                      v-for="tag in tags" v-bind:key="tag"
+                  >{{ tag }}</a>
               </div>
           </div>
       </nav>
@@ -38,7 +36,26 @@
 
 <script>
 export default {
+  async fetch() {
+    const tags = []
 
+    const tagsPost = await this.$content('blog').only(['tags']).fetch()
+
+    tagsPost.forEach(tagPost => {
+      if(tags.indexOf(tagPost.tags) == -1){
+        tags.push(tagPost.tags)
+      }
+    });
+
+    this.tags = tags
+  },
+  data(){
+    return {
+      tags: [],
+      open: false,
+    }
+  },
+  // fetchOnServer: true
 }
 </script>
 

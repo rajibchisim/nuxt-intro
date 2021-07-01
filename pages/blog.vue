@@ -8,7 +8,10 @@
 <script>
 export default {
   async asyncData ({ $content }) {
-    const page = await $content('hello').fetch()
+    const page = await $content('posts/new-post').fetch()
+    const pageDebug = await $content('posts')
+                                  .where({ category : 'post' }).fetch()
+    console.log(pageDebug)
 
     return {
       page
